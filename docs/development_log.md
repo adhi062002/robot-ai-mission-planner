@@ -162,3 +162,35 @@ Route Loader
 ↓
 
 Waypoint List
+
+## Phase 4 – ROS2 Communication
+
+### Objective
+Replace the mock ROS2 interface with an actual ROS2 Node.
+
+### Implemented
+
+- Created ROS2Interface using rclpy
+- Added publisher on /mission_command
+- Messages serialized as JSON strings
+- Created mission_listener.py subscriber
+- Successfully transmitted mission commands over ROS2 topics
+
+### Result
+
+Natural Language
+      ↓
+Mission JSON
+      ↓
+Validator
+      ↓
+Executor
+      ↓
+ROS2 Publisher
+      ↓
+ROS2 Topic
+      ↓
+ROS2 Subscriber
+
+Status:
+Completed
