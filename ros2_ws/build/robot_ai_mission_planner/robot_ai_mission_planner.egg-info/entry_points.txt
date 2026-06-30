@@ -1,3 +1,0 @@
-[console_scripts]
-mission_planner = robot_ai_mission_planner.main:main
-
