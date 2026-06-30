@@ -1,37 +1,47 @@
 import json
+import os
 
-from robot_ai_mission_planner.interfaces.ros2_interface import ROS2Interface
+from ament_index_python.packages import get_package_share_directory
 
 
 class MissionExecutor:
 
-    def __init__(self):
-
-        self.robot = ROS2Interface()
-
     def execute(self, mission):
 
-        print("\n===== EXECUTING MISSION =====")
+        print("\n========== Mission Executor ==========")
 
         action = mission["actions"][0]
 
-        filename = f"/home/augustin/robot-ai-mission-planner/missions/{action['route']}.json"
-
-        with open(filename) as f:
-
-            route = json.load(f)
-
-        self.robot.follow_route(
-
-            route,
-
-            action["laps"],
-
-            action["speed"]
-
+        package_share = get_package_share_directory(
+            "robot_ai_mission_planner"
         )
 
-        print("\nMission Complete")
+        filename = os.path.join(
+            package_share,
+            "missions",
+            f"{action['route']}.json"
+        )
 
-        
-        self.robot.shutdown()
+        try:
+            with open(filename) as f:
+                route = json.load(f)
+
+        except FileNotFoundError:
+            print(f"\n[ERROR] Route file not found: {filename}")
+            return
+
+        except json.JSONDecodeError:
+            print(f"\n[ERROR] Invalid JSON in: {filename}")
+            return
+
+        print("--------------------------------------")
+        print(f"Route : {route['name']}")
+        print(f"Laps  : {action['laps']}")
+        print(f"Speed : {action['speed']}")
+        print("--------------------------------------")
+        print("\nWaypoints")
+
+        for waypoint in route["waypoints"]:
+            print(waypoint)
+
+        print("\nMission Complete")
