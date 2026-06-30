@@ -1,6 +1,6 @@
-from src.mission_llm.Rulebasedplanner import MissionLLM
-from src.validator.json_validator import MissionValidator
-from src.executor.mission_executor import MissionExecutor
+from robot_ai_mission_planner.mission_llm.rule_based_planner import MissionLLM
+from robot_ai_mission_planner.validator.json_validator import MissionValidator
+from robot_ai_mission_planner.executor.mission_executor import MissionExecutor
 
 
 def main():
