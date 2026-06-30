@@ -1,0 +1,17 @@
+services:
+  robot-ai:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+
+    container_name: robot-ai-dev
+
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - ../:/workspace
+
+    working_dir: /workspace
+
+    network_mode: host
