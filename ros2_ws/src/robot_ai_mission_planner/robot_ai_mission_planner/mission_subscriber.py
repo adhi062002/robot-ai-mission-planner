@@ -12,7 +12,7 @@ class MissionSubscriber(Node):
 
         super().__init__("mission_subscriber")
 
-        self.mission_executor = MissionExecutor()
+        self.mission_executor = MissionExecutor(self)
 
         self.subscription = self.create_subscription(
             String,
