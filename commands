@@ -1,0 +1,15 @@
+5.ros2 launch turtlebot3_navigation2 navigation2.launch.py   use_sim_time:=True   map:=/opt/ros/humble/share/turtlebot3_navigation2/map/map.yaml
+
+4.export TURTLEBOT3_MODEL=burger
+
+3.ros2 run gazebo_ros spawn_entity.py -file /opt/ros/humble/share/turtlebot3_gazebo/models/turtlebot3_burger/model.sdf -entity burger -x 0 -y 0 -z 0.01
+
+2.ros2 run robot_state_publisher robot_state_publisher   --ros-args   -p robot_description:="$(xacro $(ros2 pkg prefix turtlebot3_description)/share/turtlebot3_description/urdf/turtlebot3_burger.urdf)"
+
+1.ros2 launch gazebo_ros gazebo.launch.py
+
+
+6.ros2 run robot_ai_mission_planner mission_planner
+
+7.ros2 run robot_ai_mission_planner mission_executor
+
