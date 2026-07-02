@@ -68,45 +68,60 @@ class MissionExecutor:
 
     def send_goal(self, x, y, yaw=0.0):
 
-        # Wait for Nav2 action server
-        if not self.nav_client.wait_for_server(timeout_sec=5.0):
-            print("[ERROR] Nav2 action server not available")
-            return False
+     print(f"\nSending goal to ({x}, {y})")
 
-        goal_msg = NavigateToPose.Goal()
+     if not self.nav_client.wait_for_server(timeout_sec=5.0):
+        print("[ERROR] Nav2 action server not available")
+        return False
 
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.header.stamp = self.node.get_clock().now().to_msg()
+     print("Nav2 server available")
 
-        pose.pose.position.x = float(x)
-        pose.pose.position.y = float(y)
-        pose.pose.position.z = 0.0
+     goal_msg = NavigateToPose.Goal()
 
-        # No orientation control (simple navigation)
-        pose.pose.orientation.w = 1.0
+     pose = PoseStamped()
+     pose.header.frame_id = "map"
+     pose.header.stamp = self.node.get_clock().now().to_msg()
 
-        goal_msg.pose = pose
+     pose.pose.position.x = float(x)
+     pose.pose.position.y = float(y)
+     pose.pose.position.z = 0.0
 
-        # Send goal
-        send_goal_future = self.nav_client.send_goal_async(goal_msg)
+     pose.pose.orientation.x = 0.0
+     pose.pose.orientation.y = 0.0
+     pose.pose.orientation.z = 0.0
+     pose.pose.orientation.w = 1.0
 
-        rclpy.spin_until_future_complete(self.node, send_goal_future)
+     goal_msg.pose = pose
 
-        goal_handle = send_goal_future.result()
+     print("Sending action goal...")
 
-        if not goal_handle.accepted:
-            print("[ERROR] Goal rejected by Nav2")
-            return False
+     send_goal_future = self.nav_client.send_goal_async(goal_msg)
 
-        # Wait for result
-        result_future = goal_handle.get_result_async()
-        rclpy.spin_until_future_complete(self.node, result_future)
+     rclpy.spin_until_future_complete(self.node, send_goal_future)
 
-        result = result_future.result()
+     goal_handle = send_goal_future.result()
 
-        return result.status == 4  # STATUS_SUCCEEDED
+     if goal_handle is None:
+         print("[ERROR] Goal handle is None")
+         return False
 
+     print("Goal accepted:", goal_handle.accepted)
+
+     if not goal_handle.accepted:
+         print("[ERROR] Goal rejected")
+         return False
+
+     print("Waiting for navigation result...")
+
+     result_future = goal_handle.get_result_async()
+
+     rclpy.spin_until_future_complete(self.node, result_future)
+
+     result = result_future.result()
+
+     print("Navigation status:", result.status)
+
+     return result.status == 4
     def load_route(self, route_name):
 
         package_share = get_package_share_directory(
