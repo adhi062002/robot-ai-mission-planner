@@ -12,49 +12,63 @@ def main():
     rclpy.init()
 
     publisher = MissionPublisher()
-
-    prompt = input("Mission > ")
-
     llm = MissionLLM()
     validator = MissionValidator()
 
-    start = time.time()
+    print("\n==========================================")
+    print(" Robot AI Mission Planner")
+    print("==========================================")
+    print("Type a mission prompt, or 'quit' to exit.\n")
 
-    mission = llm.parse(prompt)
+    try:
+        while True:
 
-    inference_time = time.time() - start
+            prompt = input("Mission > ").strip()
 
-    print(f"\nInference Time: {inference_time:.2f} seconds")
+            if prompt == "":
+                continue
 
-    if mission is None:
+            if prompt.lower() in ("quit", "exit"):
 
-        print("\nMission generation failed.")
+                print("\nSending shutdown command...")
 
+                publisher.publish_shutdown()
+
+                # Give the message a moment to actually go out over DDS
+                # before we tear the publisher node down.
+                time.sleep(0.5)
+
+                break
+
+            start = time.time()
+
+            mission = llm.parse(prompt)
+
+            inference_time = time.time() - start
+
+            print(f"\nInference Time: {inference_time:.2f} seconds")
+
+            if mission is None:
+                print("\nMission generation failed.\n")
+                continue
+
+            print("\nGenerated Mission JSON\n")
+            print(mission)
+
+            if not validator.validate(mission):
+                print("\nMission Validation Failed. Mission was not published.\n")
+                continue
+
+            print("\nMission Validated Successfully")
+
+            publisher.publish_mission(mission)
+
+            print("\nMission published successfully.\n")
+
+    finally:
         publisher.destroy_node()
         rclpy.shutdown()
-
-        return
-
-    print("\nGenerated Mission JSON\n")
-    print(mission)
-
-    if not validator.validate(mission):
-
-        print("\nMission Validation Failed. Mission was not published.")
-
-        publisher.destroy_node()
-        rclpy.shutdown()
-
-        return
-
-    print("\nMission Validated Successfully")
-
-    publisher.publish_mission(mission)
-
-    print("\nMission published successfully.")
-
-    publisher.destroy_node()
-    rclpy.shutdown()
+        print("\nMission Planner exited.\n")
 
 
 if __name__ == "__main__":

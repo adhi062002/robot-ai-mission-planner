@@ -1,3 +1,7 @@
+import os
+
+from ament_index_python.packages import get_package_share_directory
+
 from robot_ai_mission_planner.interfaces.mission_schema import MISSION_SCHEMA
 
 
@@ -11,13 +15,28 @@ class MissionValidator:
         "follow_route"
     ]
 
-    VALID_ROUTES = [
-        "perimeter_loop",
-        "inspection_loop",
-        "warehouse_route"
-    ]
+    def __init__(self):
+        self.mission_dir = os.path.join(
+            get_package_share_directory("robot_ai_mission_planner"),
+            "missions"
+        )
+
+    def get_valid_routes(self):
+        """Scan the missions directory and return route names from saved JSON files."""
+        if not os.path.isdir(self.mission_dir):
+            return []
+
+        routes = []
+
+        for filename in os.listdir(self.mission_dir):
+            if filename.endswith(".json"):
+                routes.append(filename[:-len(".json")])
+
+        return routes
 
     def validate(self, mission):
+
+        valid_routes = self.get_valid_routes()
 
         # Mission should not be None
         if mission is None:
@@ -31,11 +50,9 @@ class MissionValidator:
 
         # Check top-level schema
         for key in MISSION_SCHEMA:
-
             if key not in mission:
                 print(f"[ERROR] Missing key: {key}")
                 return False
-
             if not isinstance(mission[key], MISSION_SCHEMA[key]):
                 print(f"[ERROR] Invalid type for: {key}")
                 return False
@@ -52,7 +69,6 @@ class MissionValidator:
 
         # Validate every action
         for action in mission["actions"]:
-
             required = [
                 "type",
                 "route",
@@ -61,7 +77,6 @@ class MissionValidator:
             ]
 
             for key in required:
-
                 if key not in action:
                     print(f"[ERROR] Missing action key: {key}")
                     return False
@@ -70,8 +85,12 @@ class MissionValidator:
                 print(f"[ERROR] Unsupported action: {action['type']}")
                 return False
 
-            if action["route"] not in self.VALID_ROUTES:
+            if action["route"] not in valid_routes:
                 print(f"[ERROR] Unsupported route: {action['route']}")
+                if valid_routes:
+                    print(f"[INFO] Available routes: {', '.join(valid_routes)}")
+                else:
+                    print("[INFO] No recorded missions found in missions directory")
                 return False
 
             if not isinstance(action["laps"], int):

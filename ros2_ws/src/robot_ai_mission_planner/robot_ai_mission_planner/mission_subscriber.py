@@ -1,5 +1,6 @@
 import json
 
+import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
@@ -25,11 +26,25 @@ class MissionSubscriber(Node):
 
     def callback(self, msg):
 
+        try:
+            data = json.loads(msg.data)
+        except json.JSONDecodeError:
+            self.get_logger().error("Invalid JSON on /mission_command")
+            return
+
+        if isinstance(data, dict) and data.get("command") == "shutdown":
+
+            self.get_logger().info("Shutdown command received.")
+
+            print("\nShutdown command received.")
+            print("Shutting down...\n")
+
+            rclpy.shutdown()
+            return
+
         self.get_logger().info("Mission Received")
 
-        mission = json.loads(msg.data)
-
         print("\nReceived Mission JSON\n")
-        print(mission)
+        print(data)
 
-        self.mission_executor.execute(mission)
+        self.mission_executor.execute(data)
