@@ -1,108 +1,227 @@
+#!/usr/bin/env python3
+
 import os
-
-from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.actions import TimerAction
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node
-
-from ament_index_python.packages import get_package_share_directory
+import signal
+import subprocess
+import sys
+import threading
+import time
 
 
-def generate_launch_description():
+processes = []
 
-    gazebo_pkg = get_package_share_directory("turtlebot3_gazebo")
-    nav2_bringup_pkg = get_package_share_directory("nav2_bringup")
-    turtlebot3_nav2_pkg = get_package_share_directory("turtlebot3_navigation2")
 
-    # ------------------------------------------------------------------
-    # EDIT THIS: point to your actual map.yaml.
-    # If you're reusing the stock turtlebot3 demo map, this default is
-    # already correct — turtlebot3_nav2_pkg/map/map.yaml. If you built
-    # your own map via SLAM, replace this with that path instead.
-    # ------------------------------------------------------------------
-    map_yaml_path = os.path.join(
-        turtlebot3_nav2_pkg,
-        "map",
-        "map.yaml"
+WORKSPACE = os.path.expanduser(
+    "~/robot-ai-mission-planner/ros2_ws"
+)
+
+ROS_SETUP = (
+    f"source /opt/ros/humble/setup.bash && "
+    f"source {WORKSPACE}/install/setup.bash && "
+)
+
+
+def launch(command, name):
+
+    print(f"\n========== Starting {name} ==========\n")
+
+    cmd = ROS_SETUP + " ".join(command)
+
+    process = subprocess.Popen(
+        ["bash", "-c", cmd]
     )
 
-    # nav2 params file, also bundled in turtlebot3_navigation2 — this is
-    # what navigation2.launch.py was building internally via
-    # TURTLEBOT3_MODEL + '.yaml'; we build it explicitly instead so
-    # nothing depends on an env-var substitution resolving correctly
-    # inside a nested include.
-    turtlebot3_model = os.environ.get("TURTLEBOT3_MODEL", "burger")
+    processes.append(process)
 
-    params_file_path = os.path.join(
-        turtlebot3_nav2_pkg,
-        "param",
-        f"{turtlebot3_model}.yaml"
-    )
+    return process
 
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                gazebo_pkg,
-                "launch",
-                "turtlebot3_world.launch.py"
-            )
+
+def wait_for_odom():
+
+    print("Waiting for Gazebo...")
+
+    while True:
+
+        result = subprocess.run(
+            [
+                "bash",
+                "-c",
+                ROS_SETUP +
+                "ros2 topic echo /odom --once"
+            ],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
         )
-    )
 
-    # Calling nav2_bringup's bringup_launch.py directly instead of nesting
-    # through turtlebot3_navigation2's navigation2.launch.py — that wrapper
-    # builds its map/params paths from substitutions that can silently
-    # resolve to an empty string ('') if anything upstream isn't set
-    # exactly as it expects, which is what "No such file or directory: ''"
-    # means. Passing explicit, known-good paths here avoids that class of
-    # failure entirely.
-    nav2 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                nav2_bringup_pkg,
-                "launch",
-                "bringup_launch.py"
+        if result.returncode == 0:
+
+            print("✓ Gazebo Ready")
+            return
+
+        time.sleep(1)
+
+
+def wait_for_initialpose_subscriber():
+
+    print("Waiting for AMCL to subscribe to /initialpose...")
+
+    while True:
+
+        result = subprocess.run(
+            [
+                "bash",
+                "-c",
+                ROS_SETUP +
+                "ros2 topic info /initialpose"
+            ],
+            capture_output=True,
+            text=True
+        )
+
+        if "Subscription count: 1" in result.stdout:
+
+            print("✓ AMCL subscribed to /initialpose")
+
+            launch(
+                [
+                    "ros2",
+                    "run",
+                    "robot_ai_mission_planner",
+                    "initial_pose_publisher"
+                ],
+                "Initial Pose Publisher"
             )
-        ),
-        launch_arguments={
-            "map": map_yaml_path,
-            "params_file": params_file_path,
-            "use_sim_time": "True",
-            "autostart": "True"
-        }.items()
+
+            return
+
+        time.sleep(1)
+
+
+def wait_for_nav2():
+
+    print("Waiting for Navigation2...")
+
+    while True:
+
+        result = subprocess.run(
+            [
+                "bash",
+                "-c",
+                ROS_SETUP +
+                "ros2 service call "
+                "/lifecycle_manager_navigation/is_active "
+                "std_srvs/srv/Trigger '{}'"
+            ],
+            capture_output=True,
+            text=True
+        )
+
+        if "success: true" in result.stdout:
+
+            print("✓ Navigation2 Ready")
+            return
+
+        time.sleep(2)
+
+
+def shutdown(signum=None, frame=None):
+
+    print("\n\nShutting down system...\n")
+
+    for process in reversed(processes):
+
+        if process.poll() is None:
+            process.terminate()
+
+    time.sleep(2)
+
+    for process in reversed(processes):
+
+        if process.poll() is None:
+            process.kill()
+
+    print("System shutdown complete.")
+
+    sys.exit(0)
+
+
+def main():
+
+    signal.signal(signal.SIGINT, shutdown)
+
+    # --------------------------------------------------
+    # Gazebo
+    # --------------------------------------------------
+
+    launch(
+        [
+            "ros2",
+            "launch",
+            "turtlebot3_gazebo",
+            "turtlebot3_world.launch.py"
+        ],
+        "Gazebo"
     )
 
-    initial_pose = Node(
-        package="robot_ai_mission_planner",
-        executable="initial_pose_publisher",
-        output="screen"
+    wait_for_odom()
+
+    # --------------------------------------------------
+    # Navigation2
+    # --------------------------------------------------
+
+    launch(
+        [
+            "ros2",
+            "launch",
+            "turtlebot3_navigation2",
+            "navigation2.launch.py",
+            "use_sim_time:=True"
+        ],
+        "Navigation2"
     )
 
-    mission_executor = Node(
-        package="robot_ai_mission_planner",
-        executable="mission_executor",
-        output="screen"
+    # --------------------------------------------------
+    # Background thread waits until AMCL is actually
+    # listening on /initialpose, then publishes once.
+    # --------------------------------------------------
+
+    pose_thread = threading.Thread(
+        target=wait_for_initialpose_subscriber,
+        daemon=True
     )
 
-    delayed_nav2 = TimerAction(
-        period=10.0,
-        actions=[nav2]
+    pose_thread.start()
+
+    # --------------------------------------------------
+    # Wait until Nav2 is fully active
+    # --------------------------------------------------
+
+    wait_for_nav2()
+
+    # --------------------------------------------------
+    # Mission Executor
+    # --------------------------------------------------
+
+    launch(
+        [
+            "ros2",
+            "run",
+            "robot_ai_mission_planner",
+            "mission_executor"
+        ],
+        "Mission Executor"
     )
 
-    delayed_initial_pose = TimerAction(
-        period=15.0,
-        actions=[initial_pose]
-    )
+    print("\n======================================")
+    print(" Robot AI Mission Planner Ready")
+    print("======================================")
+    print("You can now run:")
+    print("ros2 run robot_ai_mission_planner mission_planner")
+    print("======================================\n")
 
-    delayed_executor = TimerAction(
-        period=17.0,
-        actions=[mission_executor]
-    )
+    while True:
+        time.sleep(1)
 
-    return LaunchDescription([
-        gazebo,
-        delayed_nav2,
-        delayed_initial_pose,
-        delayed_executor
-    ])
+
+if __name__ == "__main__":
+    main()
