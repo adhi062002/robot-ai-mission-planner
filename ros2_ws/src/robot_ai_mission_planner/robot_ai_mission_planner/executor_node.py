@@ -1,4 +1,5 @@
 import rclpy
+from rclpy.executors import MultiThreadedExecutor, ExternalShutdownException
 
 from robot_ai_mission_planner.mission_subscriber import MissionSubscriber
 
@@ -9,11 +10,21 @@ def main(args=None):
 
     node = MissionSubscriber()
 
-    rclpy.spin(node)
+    executor = MultiThreadedExecutor()
+    executor.add_node(node)
 
-    node.destroy_node()
+    try:
+        executor.spin()
+    except (KeyboardInterrupt, ExternalShutdownException):
+       
+        pass
+    finally:
+        executor.shutdown()
+        node.destroy_node()
 
-    rclpy.shutdown()
+   
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == "__main__":

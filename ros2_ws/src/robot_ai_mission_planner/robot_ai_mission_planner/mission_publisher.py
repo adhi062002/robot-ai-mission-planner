@@ -28,3 +28,15 @@ class MissionPublisher(Node):
         self.get_logger().info(
             "Mission Published"
         )
+
+    def publish_shutdown(self):
+
+        msg = String()
+
+        msg.data = json.dumps({"command": "shutdown"})
+
+        self.publisher.publish(msg)
+
+        self.get_logger().info(
+            "Shutdown Command Published"
+        )

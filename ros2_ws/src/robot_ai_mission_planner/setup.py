@@ -40,6 +40,8 @@ setup(
         'console_scripts': [
         'mission_planner = robot_ai_mission_planner.main:main',
         'mission_executor = robot_ai_mission_planner.executor_node:main',
+        "initial_pose_publisher = robot_ai_mission_planner.initial_pose_publisher:main",
+        'route_recorder = robot_ai_mission_planner.route_recorder:main',
      ],
     },
 )
