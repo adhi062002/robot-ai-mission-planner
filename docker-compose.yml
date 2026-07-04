@@ -1,0 +1,37 @@
+services:
+  robot-sim:
+    build: .
+    image: robot-mission-planner
+    network_mode: host
+    ipc: host
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - QT_X11_NO_MITSHM=1
+      - OLLAMA_HOST=http://localhost:11434
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /mnt/wslg:/mnt/wslg:rw
+    stdin_open: true
+    tty: true
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:0.18.0
+    network_mode: host
+    volumes:
+      - ollama_models:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+
+volumes:
+  ollama_models:

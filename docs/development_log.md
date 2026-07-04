@@ -1,196 +1,230 @@
 # Development Log
 
----
+## Overview
 
-## Phase 0 — Requirement Analysis
-
-Objective
-
-Understand the assignment and identify all required software components.
-
-Completed
-
-- Studied assignment pipeline.
-- Identified required architecture.
-- Selected TurtleBot3 simulation.
-- Selected ROS2 Humble.
-- Selected Nav2.
-- Selected Gazebo.
-
-Outcome
-
-Project architecture finalized.
+This document records the major development milestones of the Robot AI Mission Planner project. The project was developed incrementally, with each phase introducing new functionality while maintaining a modular and testable architecture.
 
 ---
 
-## Phase 1 — Environment Setup
+# Phase 1 – Project Setup
 
-Objective
+## Objectives
 
-Prepare development environment.
+- Create the ROS 2 package
+- Configure the Python package structure
+- Define the project layout
+- Establish the development environment
 
-Completed
+## Completed
 
-- Verified ROS2 installation.
-- Verified Gazebo installation.
-- Verified Nav2 packages.
-- Verified TurtleBot3 packages.
-- Installed Docker.
-- Configured Git.
+- ROS 2 workspace created
+- Package configuration completed
+- Python package initialized
+- Launch directory created
+- Mission directory created
 
-Problems
+**Outcome**
 
-Gazebo failed to spawn TurtleBot3.
-
-Investigation
-
-- Checked gazebo_ros installation.
-- Verified Gazebo plugins.
-- Verified libgazebo_ros_factory.so.
-- Manually launched gzserver.
-- Confirmed /spawn_entity service.
-
-Decision
-
-Avoid spending additional time debugging Gazebo because of project deadline.
+A functional ROS 2 package ready for feature development.
 
 ---
 
-## Phase 2 — Software Architecture
+# Phase 2 – Mission Planning
 
-Objective
+## Objectives
 
-Develop software pipeline independent of simulator.
+Develop a system capable of converting natural language into structured robot missions.
 
-Completed
+## Completed
 
-Created project structure.
+- Implemented mission planner
+- Added prompt templates
+- Integrated Ollama-based LLM
+- Implemented rule-based planner
+- Generated structured mission JSON
 
-Implemented
+**Outcome**
 
-MissionLLM
-
-Validator
-
-Executor
-
-Interfaces
-
-Mission JSON generation
-
-Testing
-
-Verified prompt parsing.
-
-Verified JSON validation.
-
-Verified execution pipeline.
+The system successfully converted user commands into machine-readable missions.
 
 ---
 
-## Phase 3 — Mission Redesign
+# Phase 3 – Mission Validation
 
-Objective
+## Objectives
 
-Improve mission representation.
+Ensure generated missions are structurally valid before execution.
 
-Changes
+## Completed
 
-Old Mission JSON
+- Designed mission schema
+- Implemented JSON validation
+- Added error handling
+- Rejected malformed missions
 
-{
-    "mission_type":"patrol",
-    "route":"inspection_loop"
-}
+**Outcome**
 
-New Mission JSON
+Only valid missions are forwarded for execution.
 
-{
-    "mission":"navigation",
-    "actions":[
-        {
-            "type":"follow_route",
-            "route":"inspection_loop",
-            "laps":2,
-            "speed":0.2
-        }
-    ]
-}
+---
 
-Reason
+# Phase 4 – ROS 2 Communication
 
-Supports future expansion.
+## Objectives
 
-Added
+Enable communication between the planning and execution components.
 
-Predefined route files.
+## Completed
 
-inspection_loop.json
+- Mission publisher implemented
+- Mission subscriber implemented
+- JSON serialization
+- Topic-based communication
 
-perimeter_loop.json
+**Outcome**
 
-warehouse_route.json
+Mission data is transmitted reliably using ROS 2 topics.
 
-Reason
+---
 
-LLM should select routes instead of generating trajectories.
+# Phase 5 – Mission Execution
 
-Current Status
+## Objectives
 
-Prompt
+Execute validated missions using autonomous navigation.
 
-↓
+## Completed
 
-MissionLLM
+- Mission Executor implemented
+- Route loading
+- Waypoint processing
+- Sequential goal execution
 
-↓
+**Outcome**
 
-Mission JSON
+Robot missions can now be executed automatically.
 
-↓
+---
 
-Validator
+# Phase 6 – Navigation Integration
 
-↓
+## Objectives
 
-Executor
+Integrate the project with the ROS 2 Navigation Stack (Nav2).
 
-↓
+## Completed
 
-Route Loader
+- Nav2 integration
+- Navigation goal generation
+- Goal monitoring
+- Mission completion handling
 
-↓
+**Outcome**
 
-Waypoint List
+The robot is capable of autonomously navigating through predefined routes.
 
-## Phase 4 – ROS2 Communication
+---
 
-### Objective
-Replace the mock ROS2 interface with an actual ROS2 Node.
+# Phase 7 – Route Recording
 
-### Implemented
+## Objectives
 
-- Created ROS2Interface using rclpy
-- Added publisher on /mission_command
-- Messages serialized as JSON strings
-- Created mission_listener.py subscriber
-- Successfully transmitted mission commands over ROS2 topics
+Simplify the creation of reusable navigation routes.
 
-### Result
+## Completed
 
-Natural Language
-      ↓
-Mission JSON
-      ↓
-Validator
-      ↓
-Executor
-      ↓
-ROS2 Publisher
-      ↓
-ROS2 Topic
-      ↓
-ROS2 Subscriber
+- Route Recorder implemented
+- Robot pose recording
+- JSON route generation
 
-Status:
-Completed
+**Outcome**
+
+Navigation paths can be recorded once and reused across multiple missions.
+
+---
+
+# Phase 8 – Gazebo Simulation
+
+## Objectives
+
+Execute the complete mission pipeline in simulation.
+
+## Completed
+
+- Gazebo environment configured
+- TurtleBot3 integration
+- Robot spawning
+- Initial pose publication
+- Launch configuration
+
+**Outcome**
+
+The complete system operates in a simulated environment.
+
+---
+
+# System Integration
+
+Following the completion of individual modules, all components were integrated into a single mission execution pipeline.
+
+Integrated components include:
+
+- Mission Planner
+- JSON Validator
+- Mission Publisher
+- Mission Subscriber
+- Mission Executor
+- Nav2
+- Gazebo Simulation
+
+The integrated system supports end-to-end autonomous mission execution.
+
+---
+
+# Testing Activities
+
+The following functionality was tested throughout development:
+
+- Mission generation
+- JSON validation
+- ROS 2 topic communication
+- Mission publishing and subscription
+- Route loading
+- Waypoint execution
+- Navigation through Nav2
+- Gazebo simulation
+- Initial robot localization
+
+Testing was performed incrementally after each development phase to ensure system stability before introducing additional functionality.
+
+---
+
+# Challenges Encountered
+
+During development, several technical challenges were addressed, including:
+
+- Designing a structured mission format suitable for LLM output
+- Maintaining loose coupling between planning and execution
+- Integrating Nav2 with custom mission execution logic
+- Managing waypoint-based navigation
+- Configuring Gazebo simulation and TurtleBot3 models
+- Ensuring consistent communication between ROS 2 nodes
+
+Each challenge contributed to improving the robustness and modularity of the final system.
+
+---
+
+# Current Status
+
+The current implementation supports:
+
+- Natural language mission planning
+- Structured mission generation
+- Mission validation
+- ROS 2 communication
+- Autonomous navigation using Nav2
+- Route recording
+- Gazebo simulation
+- Modular system architecture
+
+The project now provides a complete pipeline from user instruction to autonomous robot navigation within a simulated environment.
