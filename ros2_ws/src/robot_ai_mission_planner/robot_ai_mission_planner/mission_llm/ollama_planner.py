@@ -11,7 +11,7 @@ class MissionLLM:
         try:
 
             response = ollama.chat(
-                model="llama3.2:3b",
+                model="llama3.2:latest",
                 messages=[
                     {
                         "role": "system",

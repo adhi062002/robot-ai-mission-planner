@@ -11,11 +11,26 @@ services:
       - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
       - QT_X11_NO_MITSHM=1
       - OLLAMA_HOST=http://localhost:11434
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all,graphics,utility,display
+      - LIBGL_ALWAYS_SOFTWARE=1
+      - GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11:/usr/share/gazebo
+      # --- ADD THESE THREE LINES ---
+      - GAZEBO_MASTER_URI=http://127.0.0.1:11345
+      - GAZEBO_IP=127.0.0.1
+      - ROS_LOCALHOST_ONLY=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /mnt/wslg:/mnt/wslg:rw
     stdin_open: true
     tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     depends_on:
       - ollama
 
