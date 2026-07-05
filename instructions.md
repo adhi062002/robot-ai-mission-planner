@@ -38,6 +38,8 @@ The setup script will:
 After the setup completes, start the simulation:
 
 ```bash
+xhost +local:docker
+
 docker compose up robot-sim
 ```
 

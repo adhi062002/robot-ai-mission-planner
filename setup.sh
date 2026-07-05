@@ -12,7 +12,7 @@ set -e
 REPO_URL="git@github.com:adhi062002/robot-ai-mission-planner.git"
 REPO_DIR="robot-ai-mission-planner"
 BRANCH="add-docker-support"
-OLLAMA_MODEL="llama3.2"
+OLLAMA_MODEL="llama3.2:latest"
 
 echo "=================================================="
 echo " robot-ai-mission-planner — environment setup"
