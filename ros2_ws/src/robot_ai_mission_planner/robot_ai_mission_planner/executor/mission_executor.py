@@ -16,12 +16,6 @@ class MissionExecutor:
     def __init__(self, node):
         self.node = node
 
-        # Reentrant group so the action client's internal callbacks
-        # (goal response / result) can run on a different executor thread
-        # than the /mission_command subscription callback, which blocks
-        # here via spin_until_future_complete(). Without this, both
-        # callbacks share the node's default MutuallyExclusiveCallbackGroup
-        # and deadlock even under a MultiThreadedExecutor.
         self.nav_callback_group = ReentrantCallbackGroup()
 
         # Nav2 action client
@@ -105,23 +99,6 @@ class MissionExecutor:
         goal_msg.pose = pose
 
         print("Sending action goal...")
-
-        # NOTE: We deliberately avoid rclpy.spin_until_future_complete()
-        # here. That module-level function spins its own hidden global
-        # SingleThreadedExecutor and temporarily add/remove-node()s
-        # self.node on it — a *second* executor, separate from the
-        # MultiThreadedExecutor already spinning this node continuously
-        # in executor_node.py. Repeating that add/remove per waypoint
-        # corrupts the main executor's wait-set, which is why the node
-        # would stop reacting to new /mission_command messages (including
-        # the shutdown command) after the first mission finished.
-        #
-        # Instead we block only this callback's worker thread using a
-        # threading.Event, fed by add_done_callback(). The action client
-        # lives on its own ReentrantCallbackGroup, so its response/result
-        # callbacks run on a different thread of the SAME executor and
-        # can still fire while this thread waits — no second executor,
-        # no node re-registration, nothing left to corrupt.
 
         goal_response_event = threading.Event()
         goal_response_box = {}
