@@ -1,0 +1,6 @@
+[console_scripts]
+initial_pose_publisher = robot_ai_mission_planner.initial_pose_publisher:main
+mission_executor = robot_ai_mission_planner.executor_node:main
+mission_planner = robot_ai_mission_planner.main:main
+route_recorder = robot_ai_mission_planner.route_recorder:main
+

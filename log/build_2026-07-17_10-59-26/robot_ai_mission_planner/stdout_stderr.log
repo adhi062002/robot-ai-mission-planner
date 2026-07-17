@@ -1,0 +1,98 @@
+running egg_info
+creating ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info
+writing ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/PKG-INFO
+writing dependency_links to ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/dependency_links.txt
+writing entry points to ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/entry_points.txt
+writing requirements to ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/requires.txt
+writing top-level names to ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/top_level.txt
+writing manifest file '../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/SOURCES.txt'
+reading manifest file '../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/SOURCES.txt'
+writing manifest file '../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/main.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/__init__.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/initial_pose_publisher.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/executor_node.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/route_recorder.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/mission_subscriber.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+copying robot_ai_mission_planner/mission_publisher.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/validator
+copying robot_ai_mission_planner/validator/json_validator.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/validator
+copying robot_ai_mission_planner/validator/__init__.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/validator
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/interfaces
+copying robot_ai_mission_planner/interfaces/mission_schema.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/interfaces
+copying robot_ai_mission_planner/interfaces/__init__.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/interfaces
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/executor
+copying robot_ai_mission_planner/executor/mission_executor.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/executor
+copying robot_ai_mission_planner/executor/__init__.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/executor
+creating /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm
+copying robot_ai_mission_planner/mission_llm/prompts.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm
+copying robot_ai_mission_planner/mission_llm/ollama_planner.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm
+copying robot_ai_mission_planner/mission_llm/__init__.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm
+copying robot_ai_mission_planner/mission_llm/rule_based_planner.py -> /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm
+running install
+running install_lib
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/main.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/validator
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/validator/json_validator.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/validator
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/validator/__init__.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/validator
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/__init__.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/interfaces
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/interfaces/mission_schema.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/interfaces
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/interfaces/__init__.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/interfaces
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/initial_pose_publisher.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/executor_node.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/route_recorder.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_subscriber.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_publisher.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/executor
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/executor/mission_executor.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/executor
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/executor/__init__.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/executor
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm/prompts.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm/ollama_planner.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm/__init__.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm
+copying /home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/build/lib/robot_ai_mission_planner/mission_llm/rule_based_planner.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/main.py to main.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/validator/json_validator.py to json_validator.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/validator/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/interfaces/mission_schema.py to mission_schema.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/interfaces/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/initial_pose_publisher.py to initial_pose_publisher.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/executor_node.py to executor_node.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/route_recorder.py to route_recorder.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_subscriber.py to mission_subscriber.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_publisher.py to mission_publisher.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/executor/mission_executor.py to mission_executor.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/executor/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm/prompts.py to prompts.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm/ollama_planner.py to ollama_planner.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner/mission_llm/rule_based_planner.py to rule_based_planner.cpython-310.pyc
+running install_data
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/ament_index
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/ament_index/resource_index
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/ament_index/resource_index/packages
+copying resource/robot_ai_mission_planner -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/ament_index/resource_index/packages
+copying package.xml -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/missions
+copying missions/inspection_loop.json -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/missions
+copying missions/perimeter_loop.json -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/missions
+copying missions/sample_mission.json -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/missions
+copying missions/warehouse_route.json -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/missions
+creating /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/launch
+copying launch/full_system.launch.py -> /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/share/robot_ai_mission_planner/launch
+running install_egg_info
+Copying ../../../build/robot_ai_mission_planner/robot_ai_mission_planner.egg-info to /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/python3.10/site-packages/robot_ai_mission_planner-0.1.0-py3.10.egg-info
+running install_scripts
+Installing initial_pose_publisher script to /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/robot_ai_mission_planner
+Installing mission_executor script to /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/robot_ai_mission_planner
+Installing mission_planner script to /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/robot_ai_mission_planner
+Installing route_recorder script to /home/augustin/robot-ai-mission-planner/install/robot_ai_mission_planner/lib/robot_ai_mission_planner
+writing list of installed files to '/home/augustin/robot-ai-mission-planner/build/robot_ai_mission_planner/install.log'
